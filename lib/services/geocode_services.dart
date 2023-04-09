@@ -7,7 +7,7 @@ import '../models/geocode_info.dart';
 import '../utils/utils.dart';
 
 class GeocodeServices {
-  Future<GeocodeInfo> getByLocation({
+  Future<List<GeocodeInfo>> getByLocation({
     required String key,
     required double latitude,
     required double longitude,
@@ -16,23 +16,19 @@ class GeocodeServices {
     String? region,
   }) async {
     http.Response res = await http.post(
-      Uri.https(
-        "www.googleapis.com",
-        "/maps/api/geocode/json",
-        <String, String>{
-          "key": key,
-          "latlng": "$latitude,$longitude",
-          if (locationType != null)
-            "location_type":
-                locationType.name.convertCamelCaseToUnderscore().toUpperCase(),
-          if (language != null) "language": language,
-          if (region != null) "region": region,
-        },
-      ),
-    );
+        Uri.parse(
+          "https://maps.googleapis.com/maps/api/geocode/json?key=$key&latlng=$latitude,$longitude${(locationType != null) ? "&location_type=${locationType.name.convertCamelCaseToUnderscore().toUpperCase()}" : ""}${(language != null) ? "&language=$language" : ""}${(region != null) ? "&region=$region" : ""}",
+        ),
+        headers: <String, String>{
+          "Accept": "application/json",
+        });
     final Map<String, dynamic> resData = json.decode(res.body);
     if (res.statusCode == 200 || res.statusCode == 201) {
-      return GeocodeInfo.fromJson(resData["location"]);
+      List<GeocodeInfo> result = <GeocodeInfo>[];
+      for (Map<String, dynamic> data in resData["results"]) {
+        result.add(GeocodeInfo.fromJson(data));
+      }
+      return result;
     } else {
       throw resData["error"]["message"];
     }

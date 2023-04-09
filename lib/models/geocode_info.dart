@@ -36,7 +36,8 @@ class GeocodeInfo {
 
   GeocodeInfo.fromJson(Map<String, dynamic> data) {
     _address = data["formatted_address"];
-    _bounds = BoundsInfo.fromJson(data["geometry"]["bounds"]);
+    _bounds = BoundsInfo.fromJson(
+        data["geometry"]["bounds"] ?? data["geometry"]["viewport"]);
     _components = <GeocodeComponentInfo>[];
     _location = LocationInfo.fromJson(data["geometry"]["location"]);
     _locationType = LocationType.values.firstWhere((LocationType element) =>

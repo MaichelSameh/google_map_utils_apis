@@ -29,7 +29,7 @@ class PlaceServices {
     if (res.statusCode == 200 || res.statusCode == 201) {
       List<AutocompleteInfo> result = <AutocompleteInfo>[];
       for (Map<String, dynamic> data in resData["predictions"]) {
-        result.add(AutocompleteInfo.fromJson(resData));
+        result.add(AutocompleteInfo.fromJson(data));
       }
       return result;
     } else {

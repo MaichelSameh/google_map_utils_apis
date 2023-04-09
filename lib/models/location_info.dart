@@ -1,3 +1,5 @@
+import '../utils/numbers_util.dart';
+
 class LocationInfo {
   late double _latitude;
   late double _longitude;
@@ -11,8 +13,8 @@ class LocationInfo {
   }
 
   LocationInfo.fromJson(Map<String, dynamic> data) {
-    _latitude = data["lat"] ?? data["latitude"];
-    _longitude = data["lng"] ?? data["longitude"];
+    _latitude = (data["lat"] ?? data["latitude"]).toString().toDouble()!;
+    _longitude = (data["lng"] ?? data["longitude"]).toString().toDouble()!;
   }
 
   ///the location's latitude
