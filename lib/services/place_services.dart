@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../models/autocomplete_info.dart';
 
 class PlaceServices {
-  Future<AutocompleteInfo> getLocation({
+  Future<List<AutocompleteInfo>> getLocation({
     required String key,
     required String address,
     String? sessionToken,
@@ -27,7 +27,11 @@ class PlaceServices {
     );
     final Map<String, dynamic> resData = json.decode(res.body);
     if (res.statusCode == 200 || res.statusCode == 201) {
-      return AutocompleteInfo.fromJson(resData);
+      List<AutocompleteInfo> result = <AutocompleteInfo>[];
+      for (Map<String, dynamic> data in resData["predictions"]) {
+        result.add(AutocompleteInfo.fromJson(resData));
+      }
+      return result;
     } else {
       throw resData["error"]["message"];
     }
