@@ -34,7 +34,7 @@ class GeocodeServices {
     }
   }
 
-  Future<GeocodeInfo> getByAddress({
+  Future<List<GeocodeInfo>> getByAddress({
     required String key,
     required String address,
     LocationType? locationType,
@@ -48,13 +48,17 @@ class GeocodeServices {
     );
     final Map<String, dynamic> resData = json.decode(res.body);
     if (res.statusCode == 200 || res.statusCode == 201) {
-      return GeocodeInfo.fromJson(resData["location"]);
+      List<GeocodeInfo> result = <GeocodeInfo>[];
+      for (Map<String, dynamic> data in resData["results"]) {
+        result.add(GeocodeInfo.fromJson(data));
+      }
+      return result;
     } else {
       throw resData["error"]["message"];
     }
   }
 
-  Future<GeocodeInfo> getByPlaceId({
+ Future<List<GeocodeInfo>> getByPlaceId({
     required String key,
     required String placeId,
     LocationType? locationType,
@@ -67,7 +71,11 @@ class GeocodeServices {
     );
     final Map<String, dynamic> resData = json.decode(res.body);
     if (res.statusCode == 200 || res.statusCode == 201) {
-      return GeocodeInfo.fromJson(resData["location"]);
+      List<GeocodeInfo> result = <GeocodeInfo>[];
+      for (Map<String, dynamic> data in resData["results"]) {
+        result.add(GeocodeInfo.fromJson(data));
+      }
+      return result;
     } else {
       throw resData["error"]["message"];
     }
