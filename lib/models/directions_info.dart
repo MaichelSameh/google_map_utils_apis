@@ -62,7 +62,7 @@ class DirectionsInfo {
     _estimatedFormattedDuration =
         data["routes"][0]["legs"][0]["duration"]["text"];
     _startAddress = data["routes"][0]["legs"][0]["start_address"];
-    _startPoint = LocationInfo.fromJson(data["routes"][0]["start_location"]);
+    _startPoint = LocationInfo.fromJson(data["routes"][0]["legs"][0]["start_location"]);
     _steps = <DirectionStepInfo>[];
     _summary = data["routes"][0]["summary"];
     for (Map<String, dynamic> step in data["routes"][0]["legs"][0]["steps"]) {
