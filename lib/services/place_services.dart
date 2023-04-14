@@ -14,7 +14,7 @@ class PlaceServices {
   }) async {
     http.Response res = await http.post(
       Uri.https(
-        "www.googleapis.com",
+        "maps.googleapis.com",
         "/maps/api/place/autocomplete/json",
         <String, String>{
           "key": key,

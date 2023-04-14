@@ -42,19 +42,9 @@ class GeocodeServices {
     String? region,
   }) async {
     http.Response res = await http.post(
-      Uri.https(
-        "www.googleapis.com",
-        "/maps/api/geocode/json",
-        <String, String>{
-          "key": key,
-          "address": address,
-          if (locationType != null)
-            "location_type":
-                locationType.name.convertCamelCaseToUnderscore().toUpperCase(),
-          if (language != null) "language": language,
-          if (region != null) "region": region,
-        },
-      ),
+      Uri.parse(
+          "https://maps.googleapis.com/maps/api/geocode/json?key=$key&address=$address${(locationType != null) ? "&location_type=${locationType.name.convertCamelCaseToUnderscore().toUpperCase()}" : ""}${(language != null) ? "&language=$language" : ""}${(region != null) ? "&region=$region" : ""}",
+        ),
     );
     final Map<String, dynamic> resData = json.decode(res.body);
     if (res.statusCode == 200 || res.statusCode == 201) {
@@ -71,20 +61,9 @@ class GeocodeServices {
     String? language,
     String? region,
   }) async {
-    http.Response res = await http.post(
-      Uri.https(
-        "www.googleapis.com",
-        "/maps/api/geocode/json",
-        <String, String>{
-          "key": key,
-          "place_id": placeId,
-          if (locationType != null)
-            "location_type":
-                locationType.name.convertCamelCaseToUnderscore().toUpperCase(),
-          if (language != null) "language": language,
-          if (region != null) "region": region,
-        },
-      ),
+    http.Response res = await http.post(Uri.parse(
+          "https://maps.googleapis.com/maps/api/geocode/json?key=$key&place_id=$placeId${(locationType != null) ? "&location_type=${locationType.name.convertCamelCaseToUnderscore().toUpperCase()}" : ""}${(language != null) ? "&language=$language" : ""}${(region != null) ? "&region=$region" : ""}",
+        ),
     );
     final Map<String, dynamic> resData = json.decode(res.body);
     if (res.statusCode == 200 || res.statusCode == 201) {
