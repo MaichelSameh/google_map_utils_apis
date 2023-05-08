@@ -22,9 +22,17 @@ class GeocodeComponentInfo {
     _types = <ResultType>[];
     for (String type in data["types"]) {
       if (ResultType.values.any((ResultType element) =>
-          element.name.convertCamelCaseToUnderscore() == type)) {
+          element.name
+              .convertCamelCaseToUnderscore()
+              .split(RegExp("[0-9]"))
+              .join("_") ==
+          type)) {
         _types.add(ResultType.values.firstWhere((ResultType element) =>
-            element.name.convertCamelCaseToUnderscore() == type));
+            element.name
+                .convertCamelCaseToUnderscore()
+                .split(RegExp("[0-9]"))
+                .join("_") ==
+            type));
       }
     }
   }
