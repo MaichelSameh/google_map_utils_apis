@@ -21,18 +21,30 @@ class GeocodeComponentInfo {
     _shortName = data["short_name"];
     _types = <ResultType>[];
     for (String type in data["types"]) {
-      if (ResultType.values.any((ResultType element) =>
-          element.name
-              .convertCamelCaseToUnderscore()
-              .split(RegExp("[0-9]"))
-              .join("_") ==
-          type)) {
-        _types.add(ResultType.values.firstWhere((ResultType element) =>
-            element.name
-                .convertCamelCaseToUnderscore()
-                .split(RegExp("[0-9]"))
-                .join("_") ==
-            type));
+      if (ResultType.values.any((ResultType element) {
+        String elementType = "";
+        for (String string in element.name.split("")) {
+          if (RegExp("[A-Z]").hasMatch(string) ||
+              RegExp("[0-9]").hasMatch(string)) {
+            elementType += "_${string.toLowerCase()}";
+          } else {
+            elementType += string;
+          }
+        }
+        return elementType == type;
+      })) {
+        _types.add(ResultType.values.firstWhere((ResultType element) {
+          String elementType = "";
+          for (String string in element.name.split("")) {
+            if (RegExp("[A-Z]").hasMatch(string) ||
+                RegExp("[0-9]").hasMatch(string)) {
+              elementType += "_${string.toLowerCase()}";
+            } else {
+              elementType += string;
+            }
+          }
+          return elementType == type;
+        }));
       }
     }
   }
