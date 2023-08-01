@@ -1,4 +1,3 @@
-import '../utils/string_util.dart';
 import 'geocode_enums.dart';
 
 class GeocodeComponentInfo {
